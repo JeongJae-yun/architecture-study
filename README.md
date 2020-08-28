@@ -6,7 +6,7 @@ Android Architecture Study
 
 - 오해성 [Haeseong5](https://github.com/Haeseong5)
 
--  [4z7l](https://github.com/4z7l)
+- 김슬기 [4z7l](https://github.com/4z7l)
 
 - 강현성 [DevHyeonseong](https://github.com/DevHyeonseong)
 
