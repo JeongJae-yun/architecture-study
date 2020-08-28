@@ -1,6 +1,8 @@
 # architecture-study
 Android Architecture Study 
 
+### Issue 탭 확인해주세요❗️❗️
+
 ## Member
 - 정재윤 [JeongJae-yun](https://github.com/JeongJae-yun)
 
