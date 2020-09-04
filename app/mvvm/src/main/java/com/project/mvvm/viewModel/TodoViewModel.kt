@@ -3,57 +3,28 @@ package com.project.mvvm.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.project.mvvm.model.datasource.ToDo
-import com.project.mvvm.model.repository.RoomRepository
+import com.project.mvvm.model.Todo
+import com.project.mvvm.model.TodoRepository
 
-public class ToDoViewModel(application: Application) : AndroidViewModel(application) {
+class TodoViewModel(application: Application) : AndroidViewModel(application) {
+    /*
+    * (Repository를 통해서) Room 데이터베이스의 인스턴스를 만들 때에는 context가 필요하다.
+    *  하지만, 만약 ViewModel이 액티비티의 context를 쓰게 되면, 액티비티가 destroy 된 경우에는 메모리 릭이 발생할 수 있다.
+    *  따라서 Application Context를 사용하기 위해 Applicaion을 인자로 받는다.
+    * */
 
-    private val repository: RoomRepository by lazy {
-        RoomRepository(application)
+    private val repository = TodoRepository(application)
+    private val todos = repository.getAll()
+
+    fun getAll(): LiveData<List<Todo>> {
+        return this.todos
     }
 
-    fun getAll() : LiveData<List<ToDo>> {
-        return repository.getAll()
-    }
-
-    fun insert(todo: ToDo) {
+    fun insert(todo: Todo) {
         repository.insert(todo)
     }
 
-    fun update(todo: ToDo) {
-        repository.update(todo)
-
-    }
-
-    fun delete(todo: ToDo) {
+    fun delete(todo: Todo) {
         repository.delete(todo)
-
-
     }
-    fun deleteAll() {
-        repository.deleteAll()
-
-
-    }
-    fun toggleCheckedState(todo: ToDo) {
-        todo.checked = !todo.checked
-        repository.update(todo)
-    }
-
-    fun toggleDeleteCheckedState(todo: ToDo) {
-        todo.deleteChecked = !todo.deleteChecked
-        repository.update(todo)
-    }
-
-    fun toggleDeleteCheckedStateTrue(todo: ToDo) {
-        todo.deleteChecked =true
-        repository.update(todo)
-    }
-
-    fun toggleDeleteCheckedStateFalse(todo: ToDo) {
-        todo.deleteChecked = false
-        repository.update(todo)
-    }
-
-
 }

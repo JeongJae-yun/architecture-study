@@ -1,137 +1,55 @@
 package com.project.mvvm.view
 
-import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.mvvm.R
-import com.project.mvvm.databinding.TodoItemBinding
-import com.project.mvvm.model.datasource.ToDo
-import kotlinx.android.synthetic.main.todo_item.view.*
+import com.project.mvvm.model.Todo
 
-class ToDoAdapter(private val context: Context,
-                  private val deleteModeClickListener: TodoItemClickListener,
-                  var list: List<ToDo> = listOf<ToDo>()) : RecyclerView.Adapter<ToDoAdapter.ToDoViewHolder>() {
+class TodoAdapter(val contactItemClick: (Todo) -> Unit, val contactItemLongClick: (Todo) -> Unit)
+    : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {
 
-    var deleteMode = false
-    var selectAll =0
+    private var todos: List<Todo> = listOf()
 
-    var todoItemClickListener = deleteModeClickListener
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.todo_item, parent, false)
-        val viewHolder = ToDoViewHolder(
-            TodoItemBinding.bind(view)
-        )
-
-
-        viewHolder.binding.imageView.setOnClickListener {
-            val popupMenu = PopupMenu(parent.context,it)
-            popupMenu.inflate(R.menu.popup_menu)
-            popupMenu.show()
-
-            popupMenu.setOnMenuItemClickListener {
-                val list = list[viewHolder.adapterPosition]
-                when(it.itemId){
-                    R.id.action_delete ->{
-                        todoItemClickListener.onDeleteClicked(list)
-                        true
-                    }
-                    R.id.action_modify->{
-                        val intent =Intent(context,EditActivity::class.java)
-                        intent.putExtra("id",list.id)
-                        intent.putExtra("title",list.postsTitle)
-                        intent.putExtra("contents",list.postsContent)
-                        context.startActivity(intent)
-
-                        true
-
-                    }
-                    else -> false
-                }
-            }
-        }
-        viewHolder.itemView.setOnLongClickListener {
-
-            todoItemClickListener.onLongClicked()
-            deleteMode=true
-            notifyDataSetChanged()
-
-            return@setOnLongClickListener true
-        }
-        return viewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return list.size
-
+        return todos.size
     }
 
-    override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+        viewHolder.bind(todos[position])
     }
 
-    override fun onBindViewHolder(holder: ToDoViewHolder, position: Int) {
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private val tvTitle = itemView.findViewById<TextView>(R.id.item_tv_title)
+        private val tvDate = itemView.findViewById<TextView>(R.id.item_tv_date)
+        private val tvRank = itemView.findViewById<TextView>(R.id.item_tv_rank)
 
-        holder.binding.model = list[position]
-        holder.itemView.setOnClickListener{
-            val intent = Intent(context, PostsActivity::class.java)
-            intent.putExtra("title", list[position].postsTitle)
-            intent.putExtra("contents", list[position].postsContent)
+        fun bind(todo: Todo) {
+            tvTitle.text = todo.title
+            tvDate.text = todo.date
+            tvRank.text = todo.id.toString()
 
-            context.startActivity(intent)
-        }
+            itemView.setOnClickListener {
+                contactItemClick(todo)
+            }
 
-        holder.itemView.checkBox.setOnClickListener {
-            Log.d("it works","ok")
-            todoItemClickListener.onCheckBoxClicked(list[position])
-        }
-        holder.itemView.delete_box.setOnClickListener {
-            todoItemClickListener.onDeleteBoxClicked(list[position])
-            Log.d("dd","df")
-        }
-
-        if(deleteMode){
-            holder.binding.deleteBox.visibility= View.VISIBLE
-
-        }else{
-            holder.binding.deleteBox.visibility=View.GONE
-
-        }
-        if(selectAll==2) {
-            todoItemClickListener.checkDeleteTrue(list[position])
-            holder.binding.deleteBox.isChecked = true
-        }
-        else if(selectAll==1){
-            todoItemClickListener.checkDeleteFalse(list[position])
-            holder.binding.deleteBox.isChecked = false
-
+            itemView.setOnLongClickListener {
+                contactItemLongClick(todo)
+                true
+            }
         }
     }
 
-    class ToDoViewHolder(var binding: TodoItemBinding) : RecyclerView.ViewHolder(binding.root)
-
-
-    interface TodoItemClickListener {
-        fun onDeleteClicked(todoItem: ToDo)
-        fun onLongClicked()
-        fun onCheckBoxClicked(todoItem: ToDo)
-        fun onDeleteBoxClicked(todoItem: ToDo)
-        fun checkDeleteTrue(todoItem: ToDo)
-        fun checkDeleteFalse(todoItem: ToDo)
+    fun setTodos(todos: List<Todo>) {
+        this.todos = todos
+        notifyDataSetChanged()
     }
-    interface selection{
-        fun selectAll()
-        fun cancelSelect()
-        fun cancelDelete()
-
-    }
-
-
 
 }
