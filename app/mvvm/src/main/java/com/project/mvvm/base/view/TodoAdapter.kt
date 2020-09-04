@@ -1,4 +1,4 @@
-package com.project.mvvm.view
+package com.project.mvvm.base.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.mvvm.R
-import com.project.mvvm.model.Todo
+import com.project.mvvm.base.model.Todo
 
 class TodoAdapter(val contactItemClick: (Todo) -> Unit, val contactItemLongClick: (Todo) -> Unit)
     : RecyclerView.Adapter<TodoAdapter.ViewHolder>() {

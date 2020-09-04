@@ -1,10 +1,10 @@
-package com.project.mvvm.viewModel
+package com.project.mvvm.base.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.project.mvvm.model.Todo
-import com.project.mvvm.model.TodoRepository
+import com.project.mvvm.base.model.Todo
+import com.project.mvvm.base.model.TodoRepository
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
     /*

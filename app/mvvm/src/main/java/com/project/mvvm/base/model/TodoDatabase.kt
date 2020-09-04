@@ -1,4 +1,4 @@
-package com.project.mvvm.model
+package com.project.mvvm.base.model
 
 import android.content.Context
 import androidx.room.Database

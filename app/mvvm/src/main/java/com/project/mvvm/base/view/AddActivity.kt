@@ -1,12 +1,12 @@
-package com.project.mvvm.view
+package com.project.mvvm.base.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.project.mvvm.R
-import com.project.mvvm.model.Todo
-import com.project.mvvm.viewModel.TodoViewModel
+import com.project.mvvm.base.model.Todo
+import com.project.mvvm.base.viewModel.TodoViewModel
 import kotlinx.android.synthetic.main.activity_add.*
 
 class AddActivity : AppCompatActivity() {

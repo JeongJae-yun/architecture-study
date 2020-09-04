@@ -1,4 +1,4 @@
-package com.project.mvvm.model
+package com.project.mvvm.base.model
 
 import android.app.Application
 import androidx.lifecycle.LiveData

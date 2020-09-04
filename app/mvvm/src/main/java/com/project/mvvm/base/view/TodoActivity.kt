@@ -1,4 +1,4 @@
-package com.project.mvvm.view
+package com.project.mvvm.base.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.mvvm.R
-import com.project.mvvm.model.Todo
-import com.project.mvvm.viewModel.TodoViewModel
+import com.project.mvvm.base.model.Todo
+import com.project.mvvm.base.viewModel.TodoViewModel
 import kotlinx.android.synthetic.main.activity_todo.*
 
 class TodoActivity : AppCompatActivity() {
